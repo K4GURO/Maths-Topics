@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maths Message Generator</title>
+
+    <meta name="description"
+          content="Generate formatted Maths group messages quickly and easily.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="app-header">
+        <div class="header-content">
+            <div>
+                <h1>📐 Maths Message Generator</h1>
+                <p>Create your daily class-group message in seconds</p>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- ---------- INPUT SECTION ---------- -->
+
+        <section class="card input-card">
+
+            <div class="section-title">
+                <span>📝</span>
+                <div>
+                    <h2>Message Details</h2>
+                    <p>Enter today's topics and homework</p>
+                </div>
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+                <label for="date">Date</label>
+
+                <div class="date-row">
+                    <input type="date" id="date">
+
+                    <button type="button"
+                            class="secondary-btn"
+                            id="todayBtn">
+                        Today
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- CHAPTER -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="chapterNumber">
+                        Chapter No.
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chapterNumber"
+                        placeholder="e.g. 6"
+                        autocomplete="off">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="chapterName">
+                        Chapter Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chapterName"
+                        placeholder="e.g. Measuring Space: Perimeter and Area"
+                        autocomplete="off">
+                </div>
+
+            </div>
+
+
+            <!-- TOPICS -->
+
+            <div class="form-group">
+
+                <div class="label-row">
+                    <label>Topics Discussed</label>
+
+                    <button type="button"
+                            class="add-btn"
+                            id="addTopicBtn">
+                        ＋ Add Topic
+                    </button>
+                </div>
+
+                <div id="topicsContainer">
+
+                    <div class="dynamic-row">
+                        <input
+                            type="text"
+                            class="topic-input"
+                            placeholder="Enter topic discussed...">
+
+                        <button type="button"
+                                class="remove-btn"
+                                title="Remove topic">
+                            ×
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXERCISE -->
+
+            <div class="form-group">
+
+                <label for="exercise">
+                    Exercise / Questions Covered
+                </label>
+
+                <input
+                    type="text"
+                    id="exercise"
+                    placeholder="e.g. Exercise Set 6.2: Q.1-3"
+                    autocomplete="off">
+
+            </div>
+
+
+            <!-- HOMEWORK -->
+
+            <div class="form-group">
+
+                <div class="label-row">
+                    <label>Homework</label>
+
+                    <button type="button"
+                            class="add-btn"
+                            id="addHomeworkBtn">
+                        ＋ Add Homework
+                    </button>
+                </div>
+
+                <div id="homeworkContainer">
+
+                    <div class="dynamic-row">
+
+                        <input
+                            type="text"
+                            class="homework-input"
+                            placeholder="Enter homework...">
+
+                        <button type="button"
+                                class="remove-btn"
+                                title="Remove homework">
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NOTE -->
+
+            <div class="form-group">
+
+                <label for="note">
+                    Note
+                    <span class="optional">(optional)</span>
+                </label>
+
+                <textarea
+                    id="note"
+                    rows="3"
+                    placeholder="e.g. After Completing the HW questions, send your solution to the group."></textarea>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="action-buttons">
+
+                <button type="button"
+                        class="generate-btn"
+                        id="generateBtn">
+                    ✨ Generate Message
+                </button>
+
+                <button type="button"
+                        class="clear-btn"
+                        id="clearBtn">
+                    ↻ Clear
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ---------- PREVIEW SECTION ---------- -->
+
+        <section class="card preview-card">
+
+            <div class="section-title">
+
+                <span>👀</span>
+
+                <div>
+                    <h2>Preview</h2>
+                    <p>Your WhatsApp-ready message</p>
+                </div>
+
+            </div>
+
+
+            <div class="preview-wrapper">
+
+                <pre id="messagePreview">
+Your generated message will appear here...
+                </pre>
+
+            </div>
+
+
+            <!-- COPY -->
+
+            <button type="button"
+                    class="copy-btn"
+                    id="copyBtn"
+                    disabled>
+                📋 Copy Message
+            </button>
+
+            <p class="copy-status" id="copyStatus"></p>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="app-footer">
+
+        <p>
+            Maths Message Generator
+            <span>•</span>
+            Made for quick classroom updates
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
