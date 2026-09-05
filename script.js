@@ -447,6 +447,8 @@ todayBtn.addEventListener("click", () => {
 
 /* ================= GENERATE MESSAGE ================= */
 
+/* ================= GENERATE MESSAGE ================= */
+
 function generateMessage() {
 
     const date = formatDate(dateInput.value);
@@ -468,6 +470,800 @@ function generateMessage() {
 
     const note =
         noteInput.value.trim();
+
+
+    /* ================= VALIDATION ================= */
+
+    if (!chapterNo) {
+        alert("Please enter the Chapter Number.");
+        chapterNumber.focus();
+        return;
+    }
+
+    if (!chapter) {
+        alert("Please enter the Chapter Name.");
+        chapterName.focus();
+        return;
+    }
+
+    if (topics.length === 0 && !exercise) {
+        alert("Please enter at least one topic or exercise.");
+        return;
+    }
+
+
+    /* =====================================================
+       CREATE BOX CONTENT
+       ===================================================== */
+
+    const boxItems = [];
+
+
+    topics.forEach(topic => {
+        boxItems.push(`⋄  ${fancyText(topic)}`);
+    });
+
+
+    if (exercise) {
+        boxItems.push(`⋄  ${fancyText(exercise)}`);
+    }
+
+
+    /* =====================================================
+       BOX WIDTH
+       ===================================================== */
+
+    /*
+       Minimum width keeps the box looking similar to
+       your original WhatsApp message.
+
+       Maximum width prevents extremely long topics
+       from creating an enormous box.
+    */
+
+    const MIN_WIDTH = 24;
+    const MAX_WIDTH = 45;
+
+    let boxWidth = MIN_WIDTH;
+
+
+    boxItems.forEach(item => {
+
+        /*
+           + 2 gives a little breathing room on both sides.
+        */
+
+        boxWidth =
+            Math.max(
+                boxWidth,
+                item.length + 2
+            );
+
+    });
+
+
+    boxWidth =
+        Math.min(
+            boxWidth,
+            MAX_WIDTH
+        );
+
+
+    /* =====================================================
+       WRAP LONG LINES
+       ===================================================== */
+
+    function wrapText(text, maxLength) {
+
+        if (text.length <= maxLength) {
+            return [text];
+        }
+
+        const words = text.split(" ");
+
+        const lines = [];
+
+        let currentLine = "";
+
+        words.forEach(word => {
+
+            const testLine =
+                currentLine
+                    ? `${currentLine} ${word}`
+                    : word;
+
+
+            if (testLine.length <= maxLength) {
+
+                currentLine = testLine;
+
+            } else {
+
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+
+                currentLine = word;
+            }
+
+        });
+
+
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+
+
+        return lines;
+    }
+
+
+    /* =====================================================
+       BUILD BOX
+       ===================================================== */
+
+    let box = "";
+
+    const border =
+        "─".repeat(boxWidth);
+
+
+    box += `┌${border}┐\n`;
+
+
+    boxItems.forEach(item => {
+
+        const maxTextLength =
+            boxWidth - 2;
+
+
+        const lines =
+            wrapText(
+                item,
+                maxTextLength
+            );
+
+
+        lines.forEach(line => {
+
+            const padding =
+                " ".repeat(
+                    Math.max(
+                        0,
+                        boxWidth - line.length
+                    )
+                );
+
+
+            box +=
+                `│${line}${padding}│\n`;
+
+        });
+
+    });
+
+
+    box += `└${border}┘`;
+
+
+    /* =====================================================
+       BUILD COMPLETE MESSAGE
+       ===================================================== */
+
+    let message = "";
+
+
+    /* ---------- HEADER ---------- */
+
+    message +=
+        `*[${fancyDate(date)}] ${fancyText("TOPICS DISCUSSED")}:*\n\n`;
+
+
+    /* ---------- CHAPTER ---------- */
+
+    message +=
+        `*Ch-${chapterNo}:* *${fancyText(chapter)}*\n\n`;
+
+
+    /* ---------- TOPIC BOX ---------- */
+
+    message += box;
+
+
+    /* ---------- HOMEWORK ---------- */
+
+    if (homework.length > 0) {
+
+        message += "\n\n";
+
+        message +=
+            `*HW*: ${fancyText(homework[0])}`;
+
+
+        for (let i = 1; i < homework.length; i++) {
+
+            message +=
+                `\n      ➥ ${fancyText(homework[i])}`;
+
+        }
+
+    }
+
+
+    /* ---------- NOTE ---------- */
+
+    if (note) {
+
+        message += "\n\n";
+
+        message +=
+            `*Note*: ${note}`;
+
+    }
+
+
+    /* =====================================================
+       DISPLAY
+       ===================================================== */
+
+    messagePreview.textContent =
+        message.trim();
+
+
+    copyBtn.disabled = false;
+
+    copyStatus.textContent = "";
+
+
+    /* Save */
+
+    saveData();
+
+}/* ================= GENERATE MESSAGE ================= */
+
+function generateMessage() {
+
+    const date = formatDate(dateInput.value);
+
+    const chapterNo =
+        chapterNumber.value.trim();
+
+    const chapter =
+        chapterName.value.trim();
+
+    const topics =
+        getTopics();
+
+    const exercise =
+        exerciseInput.value.trim();
+
+    const homework =
+        getHomework();
+
+    const note =
+        noteInput.value.trim();
+
+
+    /* ================= VALIDATION ================= */
+
+    if (!chapterNo) {
+        alert("Please enter the Chapter Number.");
+        chapterNumber.focus();
+        return;
+    }
+
+    if (!chapter) {
+        alert("Please enter the Chapter Name.");
+        chapterName.focus();
+        return;
+    }
+
+    if (topics.length === 0 && !exercise) {
+        alert("Please enter at least one topic or exercise.");
+        return;
+    }
+
+
+    /* =====================================================
+       CREATE BOX CONTENT
+       ===================================================== */
+
+    const boxItems = [];
+
+
+    topics.forEach(topic => {
+        boxItems.push(`⋄  ${fancyText(topic)}`);
+    });
+
+
+    if (exercise) {
+        boxItems.push(`⋄  ${fancyText(exercise)}`);
+    }
+
+
+    /* =====================================================
+       BOX WIDTH
+       ===================================================== */
+
+    /*
+       Minimum width keeps the box looking similar to
+       your original WhatsApp message.
+
+       Maximum width prevents extremely long topics
+       from creating an enormous box.
+    */
+
+    const MIN_WIDTH = 24;
+    const MAX_WIDTH = 45;
+
+    let boxWidth = MIN_WIDTH;
+
+
+    boxItems.forEach(item => {
+
+        /*
+           + 2 gives a little breathing room on both sides.
+        */
+
+        boxWidth =
+            Math.max(
+                boxWidth,
+                item.length + 2
+            );
+
+    });
+
+
+    boxWidth =
+        Math.min(
+            boxWidth,
+            MAX_WIDTH
+        );
+
+
+    /* =====================================================
+       WRAP LONG LINES
+       ===================================================== */
+
+    function wrapText(text, maxLength) {
+
+        if (text.length <= maxLength) {
+            return [text];
+        }
+
+        const words = text.split(" ");
+
+        const lines = [];
+
+        let currentLine = "";
+
+        words.forEach(word => {
+
+            const testLine =
+                currentLine
+                    ? `${currentLine} ${word}`
+                    : word;
+
+
+            if (testLine.length <= maxLength) {
+
+                currentLine = testLine;
+
+            } else {
+
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+
+                currentLine = word;
+            }
+
+        });
+
+
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+
+
+        return lines;
+    }
+
+
+    /* =====================================================
+       BUILD BOX
+       ===================================================== */
+
+    let box = "";
+
+    const border =
+        "─".repeat(boxWidth);
+
+
+    box += `┌${border}┐\n`;
+
+
+    boxItems.forEach(item => {
+
+        const maxTextLength =
+            boxWidth - 2;
+
+
+        const lines =
+            wrapText(
+                item,
+                maxTextLength
+            );
+
+
+        lines.forEach(line => {
+
+            const padding =
+                " ".repeat(
+                    Math.max(
+                        0,
+                        boxWidth - line.length
+                    )
+                );
+
+
+            box +=
+                `│${line}${padding}│\n`;
+
+        });
+
+    });
+
+
+    box += `└${border}┘`;
+
+
+    /* =====================================================
+       BUILD COMPLETE MESSAGE
+       ===================================================== */
+
+    let message = "";
+
+
+    /* ---------- HEADER ---------- */
+
+    message +=
+        `*[${fancyDate(date)}] ${fancyText("TOPICS DISCUSSED")}:*\n\n`;
+
+
+    /* ---------- CHAPTER ---------- */
+
+    message +=
+        `*Ch-${chapterNo}:* *${fancyText(chapter)}*\n\n`;
+
+
+    /* ---------- TOPIC BOX ---------- */
+
+    message += box;
+
+
+    /* ---------- HOMEWORK ---------- */
+
+    if (homework.length > 0) {
+
+        message += "\n\n";
+
+        message +=
+            `*HW*: ${fancyText(homework[0])}`;
+
+
+        for (let i = 1; i < homework.length; i++) {
+
+            message +=
+                `\n      ➥ ${fancyText(homework[i])}`;
+
+        }
+
+    }
+
+
+    /* ---------- NOTE ---------- */
+
+    if (note) {
+
+        message += "\n\n";
+
+        message +=
+            `*Note*: ${note}`;
+
+    }
+
+
+    /* =====================================================
+       DISPLAY
+       ===================================================== */
+
+    messagePreview.textContent =
+        message.trim();
+
+
+    copyBtn.disabled = false;
+
+    copyStatus.textContent = "";
+
+
+    /* Save */
+
+    saveData();
+
+}/* ================= GENERATE MESSAGE ================= */
+
+function generateMessage() {
+
+    const date = formatDate(dateInput.value);
+
+    const chapterNo =
+        chapterNumber.value.trim();
+
+    const chapter =
+        chapterName.value.trim();
+
+    const topics =
+        getTopics();
+
+    const exercise =
+        exerciseInput.value.trim();
+
+    const homework =
+        getHomework();
+
+    const note =
+        noteInput.value.trim();
+
+
+    /* ================= VALIDATION ================= */
+
+    if (!chapterNo) {
+        alert("Please enter the Chapter Number.");
+        chapterNumber.focus();
+        return;
+    }
+
+    if (!chapter) {
+        alert("Please enter the Chapter Name.");
+        chapterName.focus();
+        return;
+    }
+
+    if (topics.length === 0 && !exercise) {
+        alert("Please enter at least one topic or exercise.");
+        return;
+    }
+
+
+    /* =====================================================
+       CREATE BOX CONTENT
+       ===================================================== */
+
+    const boxItems = [];
+
+
+    topics.forEach(topic => {
+        boxItems.push(`⋄  ${fancyText(topic)}`);
+    });
+
+
+    if (exercise) {
+        boxItems.push(`⋄  ${fancyText(exercise)}`);
+    }
+
+
+    /* =====================================================
+       BOX WIDTH
+       ===================================================== */
+
+    /*
+       Minimum width keeps the box looking similar to
+       your original WhatsApp message.
+
+       Maximum width prevents extremely long topics
+       from creating an enormous box.
+    */
+
+    const MIN_WIDTH = 24;
+    const MAX_WIDTH = 45;
+
+    let boxWidth = MIN_WIDTH;
+
+
+    boxItems.forEach(item => {
+
+        /*
+           + 2 gives a little breathing room on both sides.
+        */
+
+        boxWidth =
+            Math.max(
+                boxWidth,
+                item.length + 2
+            );
+
+    });
+
+
+    boxWidth =
+        Math.min(
+            boxWidth,
+            MAX_WIDTH
+        );
+
+
+    /* =====================================================
+       WRAP LONG LINES
+       ===================================================== */
+
+    function wrapText(text, maxLength) {
+
+        if (text.length <= maxLength) {
+            return [text];
+        }
+
+        const words = text.split(" ");
+
+        const lines = [];
+
+        let currentLine = "";
+
+        words.forEach(word => {
+
+            const testLine =
+                currentLine
+                    ? `${currentLine} ${word}`
+                    : word;
+
+
+            if (testLine.length <= maxLength) {
+
+                currentLine = testLine;
+
+            } else {
+
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+
+                currentLine = word;
+            }
+
+        });
+
+
+        if (currentLine) {
+            lines.push(currentLine);
+        }
+
+
+        return lines;
+    }
+
+
+    /* =====================================================
+       BUILD BOX
+       ===================================================== */
+
+    let box = "";
+
+    const border =
+        "─".repeat(boxWidth);
+
+
+    box += `┌${border}┐\n`;
+
+
+    boxItems.forEach(item => {
+
+        const maxTextLength =
+            boxWidth - 2;
+
+
+        const lines =
+            wrapText(
+                item,
+                maxTextLength
+            );
+
+
+        lines.forEach(line => {
+
+            const padding =
+                " ".repeat(
+                    Math.max(
+                        0,
+                        boxWidth - line.length
+                    )
+                );
+
+
+            box +=
+                `│${line}${padding}│\n`;
+
+        });
+
+    });
+
+
+    box += `└${border}┘`;
+
+
+    /* =====================================================
+       BUILD COMPLETE MESSAGE
+       ===================================================== */
+
+    let message = "";
+
+
+    /* ---------- HEADER ---------- */
+
+    message +=
+        `*[${fancyDate(date)}] ${fancyText("TOPICS DISCUSSED")}:*\n\n`;
+
+
+    /* ---------- CHAPTER ---------- */
+
+    message +=
+        `*Ch-${chapterNo}:* *${fancyText(chapter)}*\n\n`;
+
+
+    /* ---------- TOPIC BOX ---------- */
+
+    message += box;
+
+
+    /* ---------- HOMEWORK ---------- */
+
+    if (homework.length > 0) {
+
+        message += "\n\n";
+
+        message +=
+            `*HW*: ${fancyText(homework[0])}`;
+
+
+        for (let i = 1; i < homework.length; i++) {
+
+            message +=
+                `\n      ➥ ${fancyText(homework[i])}`;
+
+        }
+
+    }
+
+
+    /* ---------- NOTE ---------- */
+
+    if (note) {
+
+        message += "\n\n";
+
+        message +=
+            `*Note*: ${note}`;
+
+    }
+
+
+    /* =====================================================
+       DISPLAY
+       ===================================================== */
+
+    messagePreview.textContent =
+        message.trim();
+
+
+    copyBtn.disabled = false;
+
+    copyStatus.textContent = "";
+
+
+    /* Save */
+
+    saveData();
+
+}
 
 
     /* ================= VALIDATION ================= */
